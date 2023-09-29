@@ -1,24 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react';
+import LogIn from './components/LogIn';
+import List from './components/List';
+import banner from './banner.png';
+
 
 function App() {
+
+  const [contenido, setContenido] = React.useState(null);
+
+  const handleLogIn = () => {
+    setContenido(<List />);
+    console.log("Logeado");
+  }
+
+  useEffect(() => {
+    setContenido(<LogIn handleLogIn={handleLogIn} enter={true} />);
+  }
+  , []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header
+        className="App-header"
+      >
+        <p> Aroma </p>
+        <img src={banner} className="App-logo" alt="logo" />
       </header>
+      <div>
+        {contenido}
+      </div>
     </div>
   );
 }
