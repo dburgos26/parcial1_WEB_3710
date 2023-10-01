@@ -1,5 +1,8 @@
 import React from "react";
 import { useEffect } from "react";
+import { Card } from "react-bootstrap";
+import { FormattedMessage, FormattedDate } from "react-intl";
+import "./Detail.css";
 
 /*
 
@@ -18,9 +21,9 @@ const mockData = {
 
 
 async function getDatos(coffeid) {
-const response = await fetch("http://localhost:3001/cafes/"+coffeid);
-  const data = await response.json();
-  return data;
+    const response = await fetch("http://localhost:3001/cafes/" + coffeid);
+    const data = await response.json();
+    return data;
 }
 
 
@@ -29,12 +32,10 @@ export default function Detail({ coffeid }) {
 
     const [mockData, setMockData] = React.useState([]);
 
-    console.log(coffeid);
 
     useEffect(() => {
         async function fetchData() {
             const data = await getDatos(coffeid);
-            console.log(data);
             setMockData(data);
         }
         fetchData();
@@ -42,15 +43,32 @@ export default function Detail({ coffeid }) {
 
 
     return (
-        <>
-            <h2>{coffeid}</h2>
-            <p><strong>nombre:</strong> {mockData.nombre}</p>
-            <p><strong>tipo:</strong> {mockData.tipo}</p>
-            <p><strong>Region:</strong> {mockData.region}</p>
-            <p><strong>Notas:</strong> {mockData.notas}</p>
-            <p><strong>Fecha de cultivo:</strong> {mockData.fecha_cultivo}</p>
-            <p><strong>Altura:</strong> {mockData.altura}</p>
-            <img src={mockData.imagen} alt={mockData.nombre} />
-        </>
+        <Card border="dark" bg="#E0BBBB33" className="border-0">
+            <Card.Body>
+                <Card.Title>
+                    <strong>{mockData.nombre}</strong>
+                </Card.Title>
+                <Card.Text>
+                    <FormattedDate value={new Date(mockData.fecha_cultivo)}
+                        year='numeric'
+                        month='numeric'
+                        day='numeric'/>
+                </Card.Text>
+                <Card.Img src={mockData.imagen} alt={mockData.nombre} />
+                <Card.Text>
+                    <FormattedMessage id="notes" />
+                    <br />
+                    {mockData.notas}
+                </Card.Text>
+                <Card.Text>
+                    <strong>
+                        <FormattedMessage id="Height" />:
+                    {" "}
+                    {mockData.altura}{" "}
+                    <FormattedMessage id="masl" />
+                    </strong>
+                </Card.Text>
+            </Card.Body>
+        </Card>
     );
 }

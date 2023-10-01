@@ -1,0 +1,16 @@
+{
+    "LogInTitle" : "Inicio de sesión",
+    "Name" : "Nombre de usuario",
+    "Password" : "Contraseña",
+    "LogIn" : "Ingresar",
+    "Cancel" : "Cancelar",
+    "Contact us": "Contáctanos",
+    "Error": "Error de autenticacion, revise sus credenciales",
+    "CofName": "Nombre",
+    "Type": "Tipo",
+    "Region": "Región",
+    "notes": "Notas",
+    "Height": "Cultivado a la altura de",
+    "masl" : "msnm",
+    "Contact" : "Contactanos"
+}

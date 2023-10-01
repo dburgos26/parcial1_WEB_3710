@@ -3,6 +3,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useEffect } from 'react';
 import Table from 'react-bootstrap/Table'
 import Detail from './Detail';
+import { FormattedMessage } from 'react-intl';
+import "./List.css";
 
 
 /*
@@ -27,9 +29,9 @@ const mockData = [
 
 async function getDatos() {
     const response = await fetch("http://localhost:3001/cafes");
-      const data = await response.json();
-      return data;
-    }
+    const data = await response.json();
+    return data;
+}
 
 
 export default function List() {
@@ -54,13 +56,13 @@ export default function List() {
         <Container>
             <Row>
                 <Col>
-                    <Table>
+                    <Table className="coffee-table" hover>
                         <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Tipo</th>
-                                <th>Region</th>
+                            <tr className="table-header">
+                                <th>#</th>
+                                <th><FormattedMessage id='CofName' /></th>
+                                <th><FormattedMessage id='Type' /></th>
+                                <th><FormattedMessage id='Region' /></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -75,11 +77,13 @@ export default function List() {
                         </tbody>
                     </Table>
                 </Col>
-                {selectedCofie && (
-                    <Col md={4}>
+
+                <Col md={4}>
+                    {selectedCofie && (
                         <Detail coffeid={selectedCofie.id} />
-                    </Col>
-                )}
+                    )}
+                </Col>
+
             </Row>
         </Container>
     );

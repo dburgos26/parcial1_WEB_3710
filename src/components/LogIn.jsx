@@ -2,32 +2,33 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Container, Row, Col } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
 
-/*
 
-async function handlepeticionLogIn({ username , password}) {
-    const response = await fetch("http://localhost:3001", {
+async function handlepeticionLogIn({ username , password, setState, handleLogIn}) {
+    const response = await fetch("http://localhost:3001/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ login: username, password: password }),
     });
+
+    console.log(response.status, username, password);
   
     if (response.status === 200) {
-      // Handle successful login
+      handleLogIn();
       console.log("Logged in successfully!");
     } else if (response.status === 401) {
-      // Handle login error
+      setState(1);
       console.log("Error: Invalid login or password");
     }
   }
 
-*/
 
-export default function LogIn({ handleLogIn, enter }) {
+export default function LogIn({ handleLogIn }) {
   const [formValues, setFormValues] = React.useState({ username: '', password: '' });
-  const [validations, setValidations] = React.useState({ username: false, password: false });
+  const [state, setState] = React.useState(0);
 
   const handleUserChange = (e) => {
     setFormValues({ ...formValues, username: e.target.value });
@@ -40,46 +41,39 @@ export default function LogIn({ handleLogIn, enter }) {
   const buttonClick = (event) => {
     event.preventDefault();
 
-    const e = formValues.username;
-    const EMAIL_REGEX = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/;
-    const emailValid = EMAIL_REGEX.test(e);
-    const cant = formValues.password.length > 9;
+    handlepeticionLogIn({ username: formValues.username, password: formValues.password, setState, handleLogIn });
 
-    console.log(emailValid,cant);
-
-    setValidations({ ...validations, username: emailValid, password: cant });
-
-    const val = emailValid && cant && enter
-
-    if (enter || val) {
-        handleLogIn()
-    }
 
   };
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <div>
-            <h1>Inicia sesión</h1>
+    <Container style={{ width: '90%' }}>
+      <br />
+      <h3><FormattedMessage id='LogInTitle' /></h3>
+      <br />
+      <Row className="justify-content-center">
+        <Col md={12}>
+          <Container className="lofInContainer" style={{ backgroundColor: '#E0BBBB33', border: '1px solid black', borderColor: 'black', borderWidth: '1px', paddingLeft: '100px', paddingRight: '100px'  }}>
             <br />
             <Form>
-              <Form.Group controlId="formBasicEmail">
-                <Form.Label>Nombre se usuario</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" onChange={handleUserChange} value={formValues.username} isInvalid={!validations.username} isValid={validations.username} />
-                {!validations.username && <Form.Text className="text-muted">Añade el correo en el formato indicado</Form.Text>}
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label className="fw-bold"><FormattedMessage id='Name' /></Form.Label>
+                <Form.Control type="text" onChange={handleUserChange} value={formValues.username} style={{ borderRadius: '0', backgroundColor: '#D9D9D9' }} />
               </Form.Group>
-
+  
               <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Conntraseña</Form.Label>
-                <Form.Control type="password" placeholder="Password" onChange={handlePasswordChange} value={formValues.password} isInvalid={!validations.password} isValid={validations.password} />
-                {!validations.password && <Form.Text className="text-muted">Tu contraseña debe tener mas de 9 caracteres </Form.Text>}
+                <Form.Label className="fw-bold"><FormattedMessage id='Password' /></Form.Label>
+                <Form.Control type="password" onChange={handlePasswordChange} value={formValues.password} style={{ borderRadius: '0', backgroundColor: '#D9D9D9' }} />
               </Form.Group>
-
-              <Button onClick={buttonClick}>Submit</Button>
+  
+              <div className="d-flex justify-content-between w-100">
+                <Button variant="success" style={{ borderRadius: '0', marginRight: '10px' }} onClick={buttonClick}><FormattedMessage id='LogIn' /></Button>
+                <Button variant="danger" style={{ borderRadius: '0' }}><FormattedMessage id='Cancel' /></Button>
+              </div>
             </Form>
-          </div>
+            {state === 1 && <p className="mt-3 text-danger fw-bold"><FormattedMessage id='Error' /></p>}
+            <br />
+          </Container>
         </Col>
       </Row>
     </Container>

@@ -1,0 +1,16 @@
+{
+    "LogInTitle": "Log In",
+    "Name": "Username",
+    "Password": "Password",
+    "LogIn": "Log In",
+    "Cancel": "Cancel",
+    "Contact us": "Contact Us",
+    "Error": "Authentication Error, please check your credentials",
+    "CofName": "Name",
+    "Type": "Type",
+    "Region": "Region",
+    "notes": "Notes",
+    "Height": "Grown at an altitude of",
+    "masl": "masl",
+    "Contact" : "Contact us"
+}
